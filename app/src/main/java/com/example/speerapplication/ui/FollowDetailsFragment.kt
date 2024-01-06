@@ -44,6 +44,20 @@ class FollowDetailsFragment : Fragment() {
         recyclerAdapter= RecAdapter(requireContext())
         recyclerView.adapter = recyclerAdapter
 
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val totalItemCount = layoutManager.itemCount
+                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+
+                if (totalItemCount <= lastVisibleItem + 2) {
+                    viewModel.loadNextPage(userName, button)
+                }
+            }
+        })
+
 
 
         viewModel.followersLiveData.observe(viewLifecycleOwner){result->
@@ -53,7 +67,9 @@ class FollowDetailsFragment : Fragment() {
                 }
                 is Resource.Success ->{
                     Toast.makeText(requireContext(),"Users Found",Toast.LENGTH_SHORT).show()
-                    recyclerAdapter.setList(result.value as MutableList<UserProfile>)
+                    val currentList = recyclerAdapter.getList()
+                    currentList.addAll(result.value)
+                    recyclerAdapter.setList(currentList)
                     recyclerAdapter.notifyDataSetChanged()
 
                 }

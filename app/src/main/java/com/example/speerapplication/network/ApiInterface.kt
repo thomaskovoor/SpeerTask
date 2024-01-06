@@ -12,8 +12,8 @@ interface ApiInterface {
      fun getUserProfile(@Path("username") userName:String): Call<UserProfile>
 
     @GET("{username}/followers")
-    fun getUserFollowers(@Path("username") userName:String): Call<List<UserProfile>>
+    fun getUserFollowers(@Path("username") userName:String,@Query("page") page: Int): Call<List<UserProfile>>
 
     @GET("{username}/following")
-    fun getUserFollowing(@Path("username") userName:String): Call<List<UserProfile>>
+    fun getUserFollowing(@Path("username") userName:String,@Query("page") page: Int): Call<List<UserProfile>>
 }

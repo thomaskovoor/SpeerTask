@@ -17,6 +17,8 @@ class FollowDetailsViewModel:ViewModel() {
     var _followersLiveData = MutableLiveData<Resource<List<UserProfile>>>()
     val followersLiveData : MutableLiveData<Resource<List<UserProfile>>> get() = _followersLiveData
 
+    var currentPage = 1
+
 
 
     fun getFollowersOrFollowing(login:String,button:String){
@@ -26,9 +28,9 @@ class FollowDetailsViewModel:ViewModel() {
             val call: Call<List<UserProfile>>
             val apiInterface = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
             call = if(button=="followers")
-                apiInterface.getUserFollowers(login)
+                apiInterface.getUserFollowers(login,currentPage)
             else
-                apiInterface.getUserFollowing(login)
+                apiInterface.getUserFollowing(login,currentPage)
 
             call.enqueue(object :Callback<List<UserProfile>>{
                 override fun onResponse(
@@ -56,5 +58,10 @@ class FollowDetailsViewModel:ViewModel() {
             })
         }
 
+    }
+
+    fun loadNextPage(login: String, button: String) {
+        currentPage++
+        getFollowersOrFollowing(login, button)
     }
 }
