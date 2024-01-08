@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speerapplication.R
@@ -16,11 +17,14 @@ import com.example.speerapplication.dataclass.Resource
 import com.example.speerapplication.dataclass.UserProfile
 import com.example.speerapplication.viewmodel.FollowDetailsViewModel
 import com.example.speerapplication.viewmodel.UserSharedViewModel
+import com.facebook.shimmer.ShimmerFrameLayout
 
 
-class FollowDetailsFragment : Fragment() {
+class FollowDetailsFragment : Fragment(), RecAdapter.OnItemClickListener {
 
     lateinit var recyclerAdapter : RecAdapter
+    private val sharedViewModel: UserSharedViewModel by activityViewModels()
+
 
 
     override fun onCreateView(
@@ -32,8 +36,8 @@ class FollowDetailsFragment : Fragment() {
 
         val button = arguments?.getString("button")
 
-        val sharedViewModel: UserSharedViewModel by activityViewModels()
-        val userName = sharedViewModel.userName
+
+        val userName = arguments?.getString("name")
 
         val viewModel = ViewModelProvider(this)[FollowDetailsViewModel::class.java]
 
@@ -41,8 +45,9 @@ class FollowDetailsFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerAdapter= RecAdapter(requireContext())
+        recyclerAdapter= RecAdapter(requireContext(),this)
         recyclerView.adapter = recyclerAdapter
+
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -81,6 +86,11 @@ class FollowDetailsFragment : Fragment() {
 
 
         return view
+    }
+
+    override fun onItemClicked(user: UserProfile) {
+        sharedViewModel.setUserName(user.getUserName())
+        findNavController().navigate(R.id.action_followDetailsFragment_to_profileFragment)
     }
 
 

@@ -9,9 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speerapplication.R
 import com.example.speerapplication.dataclass.UserProfile
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.squareup.picasso.Picasso
 
-class RecAdapter( private val context: Context) : RecyclerView.Adapter<RecAdapter.ViewHolder>() {
+class RecAdapter(private val context: Context, private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<RecAdapter.ViewHolder>() {
 
     private var followList:MutableList<UserProfile>?=null
 
@@ -34,23 +35,36 @@ class RecAdapter( private val context: Context) : RecyclerView.Adapter<RecAdapte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val user = followList?.get(position)
-        holder.bind(user)
+
+           val user = followList?.get(position)
+            holder.bind(user)
+
+
+        holder.name.setOnClickListener {
+            itemClickListener.onItemClicked(user!!)
+        }
+        holder.profileImage.setOnClickListener {
+            itemClickListener.onItemClicked(user!!)
+        }
     }
 
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
-        private val name: TextView = view.findViewById(R.id.userNameItem)
-        private val profileImage: ImageView = view.findViewById(R.id.profileImageItem)
+         val name: TextView = view.findViewById(R.id.userNameItem)
+        val profileImage: ImageView = view.findViewById(R.id.profileImageItem)
+
 
         fun bind(user: UserProfile?) {
 
-            val text = "@"+user?.getUserName()
-            name.text = text
-            Picasso.get().load(user?.getUserAvatarUrl()).into(profileImage)
+                val text = "@"+user?.getUserName()
+                name.text = text
+                Picasso.get().load(user?.getUserAvatarUrl()).into(profileImage)
 
         }
 
+    }
+    interface OnItemClickListener {
+        fun onItemClicked(user: UserProfile)
     }
 
 }

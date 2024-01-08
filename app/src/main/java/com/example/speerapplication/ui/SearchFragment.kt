@@ -43,6 +43,11 @@ class SearchFragment : Fragment() {
 
         })
 
+
+
+
+
+
         val sharedViewModel: UserSharedViewModel by activityViewModels()
 
         viewModel.userLiveData.observe(viewLifecycleOwner){result->
@@ -51,13 +56,13 @@ class SearchFragment : Fragment() {
                     //show progress bar
                 }
                 is Resource.Success ->{
-                    Toast.makeText(requireContext(),"User Found",Toast.LENGTH_SHORT).show()
+                 //   Toast.makeText(requireContext(),"User Found",Toast.LENGTH_SHORT).show()
                     sharedViewModel.setData(result.value)
                     findNavController().navigate(R.id.action_searchFragment_to_profileFragment)
                 }
                  is Resource.Failure ->{
                     //hide progress bar
-                     Toast.makeText(requireContext(),"User Not Found",Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(requireContext(),"User Not Found",Toast.LENGTH_SHORT).show()
                      sharedViewModel.setData(null)
                      findNavController().navigate(R.id.action_searchFragment_to_profileFragment)
                 }

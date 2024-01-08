@@ -8,9 +8,14 @@ class UserSharedViewModel:ViewModel() {
     private val _data = MutableLiveData<UserProfile?>()
     val data: MutableLiveData<UserProfile?> get() = _data
 
-    var userName: String? = null
+    private val _userName= MutableLiveData<String?>()
+    val userName: MutableLiveData<String?> get() = _userName
 
     fun setData(newData: UserProfile?) {
         _data.value = newData
+    }
+
+    fun setUserName(newUserName: String?) {
+        userName.value = newUserName
     }
 }
