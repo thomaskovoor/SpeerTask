@@ -24,6 +24,9 @@ class FollowDetailsFragment : Fragment(), RecAdapter.OnItemClickListener {
 
     lateinit var recyclerAdapter : RecAdapter
     private val sharedViewModel: UserSharedViewModel by activityViewModels()
+    private var dialog: CustomProgressBar? = null
+
+
 
 
 
@@ -33,6 +36,8 @@ class FollowDetailsFragment : Fragment(), RecAdapter.OnItemClickListener {
     ): View? {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_follow_details, container, false)
+        dialog = CustomProgressBar(activity)
+
 
         val button = arguments?.getString("button")
 
@@ -68,17 +73,20 @@ class FollowDetailsFragment : Fragment(), RecAdapter.OnItemClickListener {
         viewModel.followersLiveData.observe(viewLifecycleOwner){result->
             when(result){
                 is Resource.Loading ->{
-                    //show progress bar
+                    dialog!!.showDialog()
+
                 }
                 is Resource.Success ->{
-                    Toast.makeText(requireContext(),"Users Found",Toast.LENGTH_SHORT).show()
                     val currentList = recyclerAdapter.getList()
                     currentList.addAll(result.value)
                     recyclerAdapter.setList(currentList)
                     recyclerAdapter.notifyDataSetChanged()
+                    dialog!!.dismissDialog()
+
 
                 }
                 is Resource.Failure ->{
+                    dialog!!.dismissDialog()
                     Toast.makeText(requireContext(),"Users Not Found",Toast.LENGTH_SHORT).show()
                 }
             }

@@ -54,19 +54,19 @@ class ProfileFragment : Fragment() {
 
         sharedViewModel.userName.observe(viewLifecycleOwner) { userName ->
             searchViewModel.searchUser(userName.toString())
-            dialog!!.showDialog()
         }
 
         searchViewModel.userLiveData.observe(viewLifecycleOwner) { result ->
               when(result){
                   is Resource.Loading ->{
-                      //show progress bar
+                      dialog!!.showDialog()
                   }
                     is Resource.Success ->{
-
                         sharedViewModel.setData(result.value)
+                        dialog!!.dismissDialog()
                     }
                     is Resource.Failure ->{
+                        dialog!!.dismissDialog()
                         Toast.makeText(requireContext(),"User Not Found",Toast.LENGTH_SHORT).show()
                     }
               }

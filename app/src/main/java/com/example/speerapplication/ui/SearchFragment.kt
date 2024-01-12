@@ -17,6 +17,7 @@ import com.example.speerapplication.viewmodel.UserSharedViewModel
 
 
 class SearchFragment : Fragment() {
+    private var dialog: CustomProgressBar? = null
 
 
     override fun onCreateView(
@@ -43,6 +44,8 @@ class SearchFragment : Fragment() {
 
         })
 
+        dialog = CustomProgressBar(activity)
+
 
 
 
@@ -53,16 +56,16 @@ class SearchFragment : Fragment() {
         viewModel.userLiveData.observe(viewLifecycleOwner){result->
             when(result){
                 is Resource.Loading ->{
-                    //show progress bar
+                    dialog!!.showDialog()
                 }
                 is Resource.Success ->{
-                 //   Toast.makeText(requireContext(),"User Found",Toast.LENGTH_SHORT).show()
+                    dialog!!.dismissDialog()
                     sharedViewModel.setData(result.value)
                     findNavController().navigate(R.id.action_searchFragment_to_profileFragment)
                 }
                  is Resource.Failure ->{
-                    //hide progress bar
-                    // Toast.makeText(requireContext(),"User Not Found",Toast.LENGTH_SHORT).show()
+                     dialog!!.dismissDialog()
+                     Toast.makeText(activity,"User not found",Toast.LENGTH_SHORT).show()
                      sharedViewModel.setData(null)
                      findNavController().navigate(R.id.action_searchFragment_to_profileFragment)
                 }

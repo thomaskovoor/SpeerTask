@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="peach">#FFBE7B</color>
     <color name="shimmer_item_color">#C2C2C2</color>
+    <color name="splashBackground">#A2D3FF</color>
+    <color name="splashBackgroundDark">#3FE1FE</color>
 </resources>
