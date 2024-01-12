@@ -24,6 +24,12 @@ The project follows the MVVM (Model-View-ViewModel) architecture pattern. It use
 - RecyclerView: For displaying lists
 - Splash Screen: For displaying a splash screen when the app is launched
 
+## Fragments
+
+- `SearchUserFragment`: Displays a search bar for searching GitHub users by username.
+- `UserDetailsFragment`: Displays a user profile including follower and following lists.
+- `FollowDetailsFragment`: Displays a list of followers or following users.
+
 ## ViewModel Classes
 
 - `SearchUserViewModel`: Responsible for managing data for the `SearchUserFragment`.

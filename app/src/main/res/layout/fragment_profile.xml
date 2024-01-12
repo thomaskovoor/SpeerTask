@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="#EBF2FA"
     tools:context=".ui.ProfileFragment">
 
     <ImageView
@@ -84,6 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:padding="2dp"
         android:text="@string/description"
         android:textColor="@color/black"
         android:textSize="20sp"

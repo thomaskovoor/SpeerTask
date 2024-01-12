@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EBF2FA"
     tools:context=".ui.SearchFragment">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:inputType="text"
         android:layoutDirection="rtl"
         app:iconifiedByDefault="false"

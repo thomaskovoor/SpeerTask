@@ -103,8 +103,9 @@ class FollowDetailsFragment : Fragment(), RecAdapter.OnItemClickListener {
                     val currentList = recyclerAdapter.getList()
                     currentList.addAll(result.value)
                     recyclerAdapter.setList(currentList)
-                    recyclerAdapter.notifyDataSetChanged()
                     dialog!!.dismissDialog()
+                    recyclerAdapter.notifyDataSetChanged()
+
 
 
                 }
