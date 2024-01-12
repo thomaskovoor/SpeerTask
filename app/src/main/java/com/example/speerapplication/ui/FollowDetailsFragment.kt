@@ -17,7 +17,30 @@ import com.example.speerapplication.dataclass.Resource
 import com.example.speerapplication.dataclass.UserProfile
 import com.example.speerapplication.viewmodel.FollowDetailsViewModel
 import com.example.speerapplication.viewmodel.UserSharedViewModel
-import com.facebook.shimmer.ShimmerFrameLayout
+
+/**
+ * `FollowDetailsFragment` is a class that extends `Fragment` and implements `RecAdapter.OnItemClickListener`. It represents a screen in the application where users can view a list of followers or following users.
+ *
+ * @property recyclerAdapter This is an instance of `RecAdapter` used to populate the RecyclerView with data.
+ * @property sharedViewModel This is an instance of `UserSharedViewModel` shared between fragments.
+ * @property dialog This is a `CustomProgressBar` instance used to show and hide a progress bar dialog during network requests.
+ *  
+ * Inside this function:
+ * - The `FollowDetailsViewModel` is initialized.
+ * - The `CustomProgressBar` is initialized with the activity as its context.
+ * - The `button` and `userName` are retrieved from the fragment's arguments.
+ * - The `getFollowersOrFollowing` function of the `FollowDetailsViewModel` is called with the `userName` and `button`.
+ * - The RecyclerView is initialized with a `LinearLayoutManager` and the `RecAdapter`.
+ * - An `OnScrollListener` is added to the RecyclerView. When the user scrolls to the end of the list, the `loadNextPage` function of the `FollowDetailsViewModel` is called.
+ * - An observer is set on the `followersLiveData` of the `FollowDetailsViewModel`. Depending on the state of the `Resource`:
+ *   - If it's `Loading`, the progress bar dialog is shown.
+ *   - If it's `Success`, the progress bar dialog is dismissed, the data from the `Resource` is added to the current list in the `RecAdapter`, and the `RecAdapter` is notified of the data change.
+ *   - If it's `Failure`, the progress bar dialog is dismissed, a toast message is shown to the user indicating that the users were not found.
+ *
+ * @function onItemClicked This function is called when an item in the RecyclerView is clicked. It sets the `userName` in the `UserSharedViewModel` and navigates to the `ProfileFragment`.
+ *
+ * @param user The `UserProfile` of the clicked item.
+ */
 
 
 class FollowDetailsFragment : Fragment(), RecAdapter.OnItemClickListener {

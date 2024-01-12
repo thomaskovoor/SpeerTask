@@ -1,8 +1,6 @@
 package com.example.speerapplication.ui
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +8,34 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.speerapplication.R
 import com.example.speerapplication.dataclass.Resource
 import com.example.speerapplication.viewmodel.SearchUserViewModel
 import com.example.speerapplication.viewmodel.UserSharedViewModel
-import com.facebook.shimmer.ShimmerFrameLayout
 import com.squareup.picasso.Picasso
+
+/**
+ * `ProfileFragment` is a class that extends `Fragment`. It represents a screen in the application where users can view a profile.
+ *
+ * @property dialog This is a `CustomProgressBar` instance used to show and hide a progress bar dialog during network requests.
+ *  
+ * Inside this function:
+ * - The `UserSharedViewModel` and `SearchUserViewModel` are initialized.
+ * - The `CustomProgressBar` is initialized with the activity as its context.
+ * - Various views are found by their IDs.
+ * - An observer is set on the `userName` of the `UserSharedViewModel`. When the `userName` changes, the `searchUser` function of the `SearchUserViewModel` is called with the new `userName`.
+ * - An observer is set on the `userLiveData` of the `SearchUserViewModel`. Depending on the state of the `Resource`:
+ *   - If it's `Loading`, the progress bar dialog is shown.
+ *   - If it's `Success`, the progress bar dialog is dismissed, the data from the `Resource` is set in the `UserSharedViewModel`.
+ *   - If it's `Failure`, the progress bar dialog is dismissed, a toast message is shown to the user indicating that the user was not found.
+ * - An observer is set on the `data` of the `UserSharedViewModel`. If the `data` is null, a "not found" message and image are shown. Otherwise, the user's information is displayed.
+ * - Click listeners are set on the `followers` and `following` TextViews. When clicked, they navigate to the `FollowDetailsFragment` with a bundle containing information about which button was clicked and the user's name.
+ * - A callback is added to the activity's `onBackPressedDispatcher` that navigates to the `SearchFragment` when the back button is pressed.
+ */
 
 
 class ProfileFragment : Fragment() {

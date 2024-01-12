@@ -12,6 +12,27 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * `SearchUserViewModel` is a class that extends `ViewModel`. It is responsible for preparing and managing the data for the `SearchUserFragment`.
+ *
+ * @property _userLiveData This is a private mutable live data of `Resource<UserProfile>`. It represents the state of the network request for a user's profile.
+ * @property userLiveData This is a public getter for `_userLiveData`.
+ *
+ * @function searchUser This function is used to search for a user's profile.
+ *
+ * @param query The username of the user to be searched.
+ *
+ * Inside this function:
+ * - The `_userLiveData` is posted with a `Loading` state.
+ * - The `ApiInterface` is created using the `RetrofitInstance`.
+ * - A network request is made to get the user's profile.
+ * - If the network request is successful:
+ *   - If the response body is not null and the message is not "Not Found", the `_userLiveData` is posted with a `Success` state and the response body.
+ *   - Otherwise, the `_userLiveData` is posted with a `Failure` state and an error message of "Not Found".
+ * - If the network request is not successful, the `_userLiveData` is posted with a `Failure` state and the error message from the response.
+ * - If the network request fails, the `_userLiveData` is posted with a `Failure` state and an error message of "Server Error".
+ */
+
 class SearchUserViewModel :ViewModel(){
 
     var _userLiveData = MutableLiveData<Resource<UserProfile>>()
